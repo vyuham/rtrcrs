@@ -39,7 +39,7 @@ impl Vec3 {
     }
 
     pub fn cross(self, rhs: Self) -> Self {
-        Self{
+        Self {
             x: self.y * rhs.z - self.z * rhs.y,
             y: self.z * rhs.x - self.x * rhs.z,
             z: self.x * rhs.y - self.y * rhs.x,
@@ -96,7 +96,7 @@ impl ops::Mul<Vec3> for Vec3 {
     type Output = Vec3;
 
     fn mul(self, rhs: Self) -> Self {
-        Self{
+        Self {
             x: self.x * rhs.x,
             y: self.y * rhs.y,
             z: self.z * rhs.z,
