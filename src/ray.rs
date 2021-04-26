@@ -1,5 +1,6 @@
 use crate::Color;
 use crate::Vec3;
+use crate::Color;
 pub type Point3 = Vec3;
 
 pub struct Ray {
