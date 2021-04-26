@@ -1,6 +1,4 @@
-use crate::Color;
-use crate::Vec3;
-use crate::Color;
+use crate::{Color, Vec3};
 pub type Point3 = Vec3;
 
 pub struct Ray {
@@ -19,7 +17,7 @@ impl Ray {
     pub fn direction(self) -> Vec3 {
         self.dir
     }
-    pub fn at(self, t: f64) -> Vec3 {
+    pub fn at(self, t: f64) -> Point3 {
         self.orig + self.dir * t
     }
 
