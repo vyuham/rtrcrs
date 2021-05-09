@@ -1,5 +1,7 @@
 use std::ops;
 
+/// Defines a three dimensional data structure that can be used for purposes such as represeting a point in the 3D Cartesian Co-ordinate System or per-pixel color values.
+/// Operator overloading is used for operations with objects of Vec3, by implementing the traits from [std::ops](std::ops).
 #[derive(Copy, Clone)]
 pub struct Vec3 {
     x: f64,
@@ -8,24 +10,32 @@ pub struct Vec3 {
 }
 
 impl Vec3 {
+    /// Creates a new Vec3.
     pub fn new(x: f64, y: f64, z: f64) -> Self {
         Self { x, y, z }
     }
 
+    /// This function returns the x co-ordintate of given vector.
     pub fn x(self) -> f64 {
         self.x
     }
+        
+    /// This function returns the y co-ordintate of given vector.
     pub fn y(self) -> f64 {
         self.y
     }
+
+    /// This function returns the z co-ordintate of given vector.
     pub fn z(self) -> f64 {
         self.z
     }
 
+    /// This function returns the dot product of given vector with any other vector.
     pub fn dot(self, rhs: Self) -> f64 {
         self.x * rhs.x + self.y * rhs.y + self.z * rhs.z
     }
 
+    /// This function returns the cross product of given vector with any other vector.
     pub fn cross(self, rhs: Self) -> Self {
         Self {
             x: self.y * rhs.z - self.z * rhs.y,
@@ -34,14 +44,17 @@ impl Vec3 {
         }
     }
 
+    /// This fucntion returns the square of given vector.
     pub fn length_squared(self) -> f64 {
         self.dot(self)
     }
 
+    /// This fucntion returns the length of given vector.
     pub fn length(self) -> f64 {
         self.length_squared().sqrt()
     }
 
+    /// This fucntion produces the unit vector of any input vector.
     pub fn unit_vector(vec: Self) -> Self {
         vec / vec.length()
     }
