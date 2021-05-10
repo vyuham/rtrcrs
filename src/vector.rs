@@ -165,7 +165,7 @@ mod tests {
         let vec1 = Vec3::new(0.126, 0.314, 0.631);
         let vec2 = Vec3::new(0.314, 0.631, 0.126);
 
-        let expected =Vec3::new(-0.358597, 0.182258, -0.019089999999999996); // Multiplication Overflow detected, z vector erroneous. (CALCULATED:-0.01909)
+        let expected = Vec3::new(-0.358597, 0.182258, -0.019089999999999996); // Multiplication Overflow detected, z vector erroneous. (CALCULATED:-0.01909)
         assert_eq!(vec1.cross(vec2), expected);
     }
 }
