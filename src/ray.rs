@@ -1,7 +1,7 @@
 use nalgebra::Vector3;
 
 use crate::{
-    definitions::random_in_hemisphere, Color, HitRecord, Hittable, HittableList, INFINITY,
+    definitions::random_in_hemisphere, Color, Hittable, HittableList, INFINITY,
 };
 
 /// Defines an alias for Vector3, used to define a point in 3-dimensional co-ordinate space.
