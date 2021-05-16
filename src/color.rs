@@ -24,3 +24,15 @@ impl fmt::Display for Color {
         )
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn color_string_test() {
+        let color = Color::new(0.126, 0.314, 0.631);
+        let expected = "32 80 161".to_string();
+        assert_eq!(format!("{}", color), expected);
+    }
+}
