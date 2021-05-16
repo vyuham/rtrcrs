@@ -11,6 +11,7 @@ pub fn degrees_to_radians(degrees: f64) -> f64 {
     degrees * PI / 180.0
 }
 
+/// Provides logic for generating random numbers of type f64 from 0.0 to 1.0 .
 pub fn random_double() -> f64 {
     rand::thread_rng().gen_range(0.0..1.0)
 }

@@ -4,6 +4,7 @@ use std::fmt;
 pub type Color = crate::Vec3;
 
 impl Color {
+    /// Used to smoothen edges using Antialiasing.
     pub fn anti_aliased(&self, samples_per_pixel: i32) -> Self {
         let sample = |s: f64| (s / samples_per_pixel as f64).max(0.0).min(0.999);
 

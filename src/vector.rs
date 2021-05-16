@@ -60,6 +60,7 @@ impl Vec3 {
     }
 }
 
+/// Implemented Addition trait for Vec3.
 impl ops::Add for Vec3 {
     type Output = Self;
 
@@ -72,12 +73,14 @@ impl ops::Add for Vec3 {
     }
 }
 
+/// Implemented Addition Assignment trait for Vec3.
 impl ops::AddAssign for Vec3 {
     fn add_assign(&mut self, rhs: Self) {
         *self = *self + rhs;
     }
 }
 
+/// Implemented Unary Negation trait for Vec3.
 impl ops::Neg for Vec3 {
     type Output = Self;
 
@@ -90,6 +93,7 @@ impl ops::Neg for Vec3 {
     }
 }
 
+/// Implemented Subtraction trait between two Vec3.
 impl ops::Sub for Vec3 {
     type Output = Self;
 
@@ -102,12 +106,14 @@ impl ops::Sub for Vec3 {
     }
 }
 
+/// Implemented Subtraction Assignment trait for Vec3.
 impl ops::SubAssign for Vec3 {
     fn sub_assign(&mut self, rhs: Self) {
         *self = *self - rhs;
     }
 }
 
+/// Implemented Multiplication trait for Vec3 by f64.
 impl ops::Mul<f64> for Vec3 {
     type Output = Self;
 
@@ -120,12 +126,14 @@ impl ops::Mul<f64> for Vec3 {
     }
 }
 
+/// Implemented Multiplication Assignment trait for Vec3 by f64.
 impl ops::MulAssign<f64> for Vec3 {
     fn mul_assign(&mut self, rhs: f64) {
         *self = *self * rhs;
     }
 }
 
+/// Implemented Addition trait for f64 by Vec3.
 impl ops::Mul<Vec3> for f64 {
     type Output = Vec3;
 
@@ -134,7 +142,7 @@ impl ops::Mul<Vec3> for f64 {
     }
 }
 
-/// Mul between two Vec3
+/// Implemented Multiplication trait between two Vec3.
 impl ops::Mul<Vec3> for Vec3 {
     type Output = Self;
 
@@ -147,12 +155,14 @@ impl ops::Mul<Vec3> for Vec3 {
     }
 }
 
+/// Implemented Multiplicaton Assignment trait for Vec3 by Vec3.
 impl ops::MulAssign<Vec3> for Vec3 {
     fn mul_assign(&mut self, rhs: Self) {
         *self = *self * rhs;
     }
 }
 
+/// Implemented Division trait for Vec3 by f64.
 impl ops::Div<f64> for Vec3 {
     type Output = Self;
 
@@ -165,6 +175,7 @@ impl ops::Div<f64> for Vec3 {
     }
 }
 
+/// Implemented Division Assignment trait for Vec3 by f64.
 impl ops::DivAssign<f64> for Vec3 {
     fn div_assign(&mut self, rhs: f64) {
         *self = *self / rhs;

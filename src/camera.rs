@@ -1,5 +1,6 @@
 use crate::{Point3, Ray, Vec3};
 
+/// Defines a data-structure used to store the geometry of the Camera.
 #[derive(Clone, Copy)]
 pub struct Camera {
     origin: Point3,
@@ -9,6 +10,7 @@ pub struct Camera {
 }
 
 impl Camera {
+    /// Used to set the geometric values of the Camera.
     pub fn new() -> Self {
         let aspect_ratio = 16.0 / 9.0;
         let viewport_height = 2.0;
@@ -28,6 +30,7 @@ impl Camera {
             lower_left_corner,
         }
     }
+    /// Used to get the Ray corresponding to a Pixel and the Camera.
     pub fn get_ray(&self, u: f64, v: f64) -> Ray {
         Ray::new(
             self.origin,
