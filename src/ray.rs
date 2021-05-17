@@ -1,6 +1,8 @@
 use nalgebra::Vector3;
 
-use crate::{Color, HitRecord, Hittable, HittableList, INFINITY};
+use crate::{
+    definitions::random_in_hemisphere, Color, HitRecord, Hittable, HittableList, INFINITY,
+};
 
 /// Defines an alias for Vector3, used to define a point in 3-dimensional co-ordinate space.
 pub type Point3 = Vector3<f64>;
@@ -34,10 +36,13 @@ impl Ray {
     }
 
     /// Returns the expected color at the intersection of any ray and the object(s) in `world`.
-    pub fn color(&self, world: &HittableList) -> Color {
+    pub fn color(&self, world: &HittableList, depth: i32) -> Color {
         let mut rec = HitRecord::default();
-        if world.hit(self, 0.0, INFINITY, &mut rec) {
-            0.5 * (rec.normal + Color::new(1.0, 1.0, 1.0))
+        if depth <= 0 {
+            Color::new(0.0, 0.0, 0.0)
+        } else if world.hit(self, 0.001, INFINITY, &mut rec) {
+            let target = rec.point + random_in_hemisphere(&rec.normal);
+            0.5 * Ray::new(rec.point, target - rec.point).color(&world, depth - 1)
         } else {
             let unit_dir = self.dir.normalize();
             let t = 0.5 * (unit_dir.y + 1.0);
