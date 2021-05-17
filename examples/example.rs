@@ -31,7 +31,7 @@ fn main() {
 
     // Render
     println!("P3\n{} {}\n255", IMAGE_WIDTH, IMAGE_HEIGHT);
-
+    std::env::set_var("RAYON_NUM_THREADS", "4");
     let image = (0..IMAGE_HEIGHT)
         .into_par_iter()
         .rev()
