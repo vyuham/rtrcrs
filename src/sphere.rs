@@ -1,16 +1,22 @@
+use std::sync::Arc;
 use nalgebra::Vector3;
 
-use crate::{HitRecord, Hittable, Point3, Ray};
+use crate::{HitRecord, Hittable, Material, Point3, Ray, material::Lambertian};
 
 /// Defines a geometrically Spherical object.
 pub struct Sphere {
     center: Point3,
     radius: f64,
+    material: Arc<dyn Material>,
 }
 
 impl Sphere {
-    pub fn new(center: Point3, radius: f64) -> Self {
-        Self { center, radius }
+    pub fn new(center: Point3, radius: f64, material: Arc<dyn Material>) -> Self {
+        Self {
+            center,
+            radius,
+            material,
+        }
     }
 }
 
@@ -47,10 +53,12 @@ impl Hittable for Sphere {
             normal: Vector3::new(0.0, 0.0, 0.0),
             t,
             front_face: false,
+            material: Arc::new(Lambertian::new()),
         };
 
         let outward_normal = (point - self.center) / self.radius;
         rec.set_face_normal(ray, outward_normal);
+        rec.material = self.material.clone();
 
         Some(rec)
     }

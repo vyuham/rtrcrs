@@ -1,14 +1,16 @@
 use nalgebra::Vector3;
+use std::sync::Arc;
 
-use crate::{Point3, Ray};
+use crate::{Material, Lambertian , Point3, Ray};
 
 /// Defines a record data-structure to store the information about Rays hitting multiple objects.
-#[derive(Copy, Clone)]
+#[derive(Clone)]
 pub struct HitRecord {
     pub point: Point3,
     pub normal: Vector3<f64>,
     pub t: f64,
     pub front_face: bool,
+    pub material: Arc<dyn Material>,
 }
 
 impl HitRecord {
@@ -19,6 +21,7 @@ impl HitRecord {
             normal: Vector3::new(0.0, 0.0, 0.0),
             t: 0.0,
             front_face: false,
+            material: Arc::new(Lambertian::new()),
         }
     }
     /// Used to set values in record with given record.

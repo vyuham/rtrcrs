@@ -40,8 +40,13 @@ impl Ray {
         if depth <= 0 {
             Color::new(0.0, 0.0, 0.0)
         } else if let Some(rec) = world.hit(self, 0.001, INFINITY) {
-            let target = rec.point + random_in_hemisphere(&rec.normal);
-            0.5 * Ray::new(rec.point, target - rec.point).color(&world, depth - 1)
+            let mut scattered=Ray::new(Point3::new(0.0, 0.0, 0.0),  Vector3::new(0.0, 0.0, 0.0));
+            let mut attenuation = Color::new(0.0, 0.0, 0.0);
+            if rec.material.scatter(self, &rec, &mut attenuation, &mut scattered){
+                attenuation.zip_map(&scattered.color(world, depth-1), |l,r| l*r)
+            } else {
+                Color::new(0.0, 0.0, 0.0)
+            }
         } else {
             let unit_dir = self.dir.normalize();
             let t = 0.5 * (unit_dir.y + 1.0);

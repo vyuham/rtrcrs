@@ -17,3 +17,6 @@ pub mod definitions;
 use definitions::INFINITY;
 
 pub mod camera;
+
+pub mod material;
+use material::{Material,Lambertian,Metal};

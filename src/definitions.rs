@@ -41,3 +41,16 @@ pub fn random_in_hemisphere(normal: &Vector3<f64>) -> Vector3<f64> {
         -in_unit_sphere
     }
 }
+
+pub fn random_unit_vector() -> Vector3<f64> {
+    random_in_unit_sphere().normalize()
+}
+
+pub fn reflect(v: &Vector3<f64>, n: &Vector3<f64>) -> Vector3<f64> {
+    v - 2.0 * v.dot(n)*n
+}
+
+pub fn near_zero(v:Vector3<f64>) -> bool{
+    let s = 10f64.powi(-8);
+    v.x.abs() < s && v.y.abs() < s && v.z.abs() < s
+}

@@ -9,6 +9,7 @@ use rtrcrs::{
     color::{anti_aliased, Color},
     definitions::random_double,
     hittable_list::HittableList,
+    material::Material,
     ray::Point3,
     sphere::Sphere,
 };
@@ -23,8 +24,32 @@ fn main() {
 
     //World
     let mut world = HittableList::default();
-    world.add(Arc::new(Sphere::new(Point3::new(0.0, -100.5, -1.0), 100.0)));
-    world.add(Arc::new(Sphere::new(Point3::new(0.0, 0.0, -1.0), 0.5)));
+
+    // let material_ground = make_shared<lambertian>(color(0.8, 0.8, 0.0));
+    // let material_center = make_shared<lambertian>(color(0.7, 0.3, 0.3));
+    // let material_left   = make_shared<metal>(color(0.8, 0.8, 0.8));
+    // let material_right  = make_shared<metal>(color(0.8, 0.6, 0.2));
+
+    world.add(Arc::new(Sphere::new(
+        Point3::new(0.0, -100.5, -1.0),
+        100.0,
+        material_ground,
+    )));
+    world.add(Arc::new(Sphere::new(
+        Point3::new(0.0, 0.0, -1.0),
+        0.5,
+        material_center,
+    )));
+    world.add(Arc::new(Sphere::new(
+        Point3::new(-1.0, 0.0, -1.0),
+        0.5,
+        material_left,
+    )));
+    world.add(Arc::new(Sphere::new(
+        Point3::new(1.0, 0.0, -1.0),
+        0.5,
+        material_right,
+    )));
 
     // Camera
     let camera = Camera::new();
