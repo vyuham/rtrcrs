@@ -1,8 +1,6 @@
 use nalgebra::Vector3;
 
-use crate::{
-    definitions::random_in_hemisphere, Color, Hittable, HittableList, INFINITY,
-};
+use crate::{Color, Hittable, HittableList, INFINITY};
 
 /// Defines an alias for Vector3, used to define a point in 3-dimensional co-ordinate space.
 pub type Point3 = Vector3<f64>;
@@ -40,12 +38,15 @@ impl Ray {
         if depth <= 0 {
             Color::new(0.0, 0.0, 0.0)
         } else if let Some(rec) = world.hit(self, 0.001, INFINITY) {
-            let mut scattered=Ray::new(Point3::new(0.0, 0.0, 0.0),  Vector3::new(0.0, 0.0, 0.0));
-            let mut attenuation = Color::new(0.0, 0.0, 0.0);
-            if rec.material.scatter(self, &rec, &mut attenuation, &mut scattered){
-                attenuation.zip_map(&scattered.color(world, depth-1), |l,r| l*r)
-            } else {
-                Color::new(0.0, 0.0, 0.0)
+            match rec.material.scatter(
+                self,
+                &rec,
+                &Ray::new(Point3::new(0.0, 0.0, 0.0), Vector3::new(0.0, 0.0, 0.0)),
+            ) {
+                Some((attenuation, scattered)) => {
+                    attenuation.zip_map(&scattered.color(world, depth - 1), |l, r| l * r)
+                }
+                None => Color::new(0.0, 0.0, 0.0),
             }
         } else {
             let unit_dir = self.dir.normalize();
@@ -64,7 +65,7 @@ mod tests {
         let origin = Point3::new(3.0, 2.0, 1.0);
         let dir = Vector3::new(2.0, 3.0, 5.0);
         let ray = Ray::new(origin, dir);
-        
+
         assert_eq!(ray.origin(), origin);
         assert_eq!(ray.direction(), dir);
         assert_eq!(ray.at(3.0), origin + dir * 3.0);

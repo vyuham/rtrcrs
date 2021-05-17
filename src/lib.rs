@@ -19,4 +19,4 @@ use definitions::INFINITY;
 pub mod camera;
 
 pub mod material;
-use material::{Material,Lambertian,Metal};
+use material::{Lambertian, Material};
