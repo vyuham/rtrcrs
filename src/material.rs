@@ -1,5 +1,5 @@
 use crate::{
-    definitions::{near_zero, random_unit_vector, reflect},
+    definitions::{near_zero, random_in_unit_sphere, random_unit_vector, reflect},
     Color, HitRecord, Ray,
 };
 
@@ -31,11 +31,12 @@ impl Material for Lambertian {
 
 pub struct Metal {
     albedo: Color,
+    fuzz: f64,
 }
 
 impl Metal {
-    pub fn new(albedo: Color) -> Self {
-        Self { albedo }
+    pub fn new(albedo: Color, fuzz: f64) -> Self {
+        Self { albedo, fuzz }
     }
 }
 
@@ -43,7 +44,10 @@ impl Material for Metal {
     fn scatter(&self, r_in: &Ray, rec: &HitRecord, scattered: &Ray) -> Option<(Color, Ray)> {
         let reflected = reflect(&r_in.direction().normalize(), &rec.normal);
         if scattered.direction().dot(&rec.normal) > 0.0 {
-            Some((self.albedo.clone(), Ray::new(rec.point, reflected)))
+            Some((
+                self.albedo.clone(),
+                Ray::new(rec.point, reflected + self.fuzz * random_in_unit_sphere()),
+            ))
         } else {
             None
         }
