@@ -38,11 +38,10 @@ impl Ray {
         if depth <= 0 {
             Color::new(0.0, 0.0, 0.0)
         } else if let Some(rec) = world.hit(self, 0.001, INFINITY) {
-            match rec.material.scatter(
-                self,
-                &rec,
-                &Ray::new(Point3::new(0.0, 0.0, 0.0), Vector3::new(0.0, 0.0, 0.0)),
-            ) {
+            match rec
+                .material
+                .scatter(self, &rec, &Ray::new(rec.point, rec.normal))
+            {
                 Some((attenuation, scattered)) => {
                     attenuation.zip_map(&scattered.color(world, depth - 1), |l, r| l * r)
                 }
