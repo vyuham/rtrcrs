@@ -19,7 +19,7 @@ fn main() {
     const ASPECT_RATIO: f64 = 16.0 / 9.0;
     const IMAGE_WIDTH: i32 = 400;
     const IMAGE_HEIGHT: i32 = (IMAGE_WIDTH as f64 / ASPECT_RATIO) as i32;
-    const SAMPLES_PER_PIXEL: i32 = 16;
+    const SAMPLES_PER_PIXEL: i32 = 100;
     const MAX_DEPTH: i32 = 50;
 
     //World
@@ -56,7 +56,7 @@ fn main() {
 
     // Render
     println!("P3\n{} {}\n255", IMAGE_WIDTH, IMAGE_HEIGHT);
-    std::env::set_var("RAYON_NUM_THREADS", "4");
+    std::env::set_var("RAYON_NUM_THREADS", "8");
     let image = (0..IMAGE_HEIGHT)
         .into_par_iter()
         .rev()
