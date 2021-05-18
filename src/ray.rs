@@ -59,6 +59,7 @@ mod tests {
         let origin = Point3::new(3.0, 2.0, 1.0);
         let dir = Vector3::new(2.0, 3.0, 5.0);
         let ray = Ray::new(origin, dir);
+        
         assert_eq!(ray.origin(), origin);
         assert_eq!(ray.direction(), dir);
         assert_eq!(ray.at(3.0), origin + dir * 3.0);
@@ -67,7 +68,9 @@ mod tests {
     fn color_test() {
         let origin = Point3::new(3.0, 2.0, 1.0);
         let dir = Vector3::new(2.0, 3.0, 5.0);
-        let color = Ray::new(origin, dir).color();
+        let world = HittableList::default();
+        let color = Ray::new(origin, dir).color(&world, 10);
+
         assert_eq!(
             color,
             Color::new(0.6283339341519281, 0.7770003604911568, 1.0)
