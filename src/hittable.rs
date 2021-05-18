@@ -43,5 +43,5 @@ impl HitRecord {
 /// Defines the interfaces that can be implemented on any kind of object abstraction.
 pub trait Hittable: Sync + Send {
     /// Defines the hit operation on the object with the provided Ray.
-    fn hit(&self, ray: &Ray, t_min: f64, t_max: f64, rec: &mut HitRecord) -> bool;
+    fn hit(&self, ray: &Ray, t_min: f64, t_max: f64) -> Option<HitRecord>;
 }

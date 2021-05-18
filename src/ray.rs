@@ -37,10 +37,9 @@ impl Ray {
 
     /// Returns the expected color at the intersection of any ray and the object(s) in `world`.
     pub fn color(&self, world: &HittableList, depth: i32) -> Color {
-        let mut rec = HitRecord::default();
         if depth <= 0 {
             Color::new(0.0, 0.0, 0.0)
-        } else if world.hit(self, 0.001, INFINITY, &mut rec) {
+        } else if let Some(rec) = world.hit(self, 0.001, INFINITY) {
             let target = rec.point + random_in_hemisphere(&rec.normal);
             0.5 * Ray::new(rec.point, target - rec.point).color(&world, depth - 1)
         } else {

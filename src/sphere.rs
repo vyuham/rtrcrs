@@ -1,3 +1,5 @@
+use nalgebra::Vector3;
+
 use crate::{HitRecord, Hittable, Point3, Ray};
 
 /// Defines a geometrically Spherical object.
@@ -14,7 +16,7 @@ impl Sphere {
 
 impl Hittable for Sphere {
     /// Provides a definition of hit() for spherical objects.
-    fn hit(&self, ray: &Ray, t_min: f64, t_max: f64, rec: &mut HitRecord) -> bool {
+    fn hit(&self, ray: &Ray, t_min: f64, t_max: f64) -> Option<HitRecord> {
         let oc = ray.origin() - self.center;
         let (a, half_b, c) = (
             ray.direction().dot(&ray.direction()),
@@ -24,7 +26,7 @@ impl Hittable for Sphere {
 
         let discriminant = half_b.powi(2) - a * c;
         if discriminant < 0.0 {
-            return false;
+            return None;
         }
         let sqrtd = discriminant.sqrt();
 
@@ -33,15 +35,23 @@ impl Hittable for Sphere {
         if root < t_min || t_max < root {
             root = (-half_b + sqrtd) / a;
             if root < t_min || t_max < root {
-                return false;
+                return None;
             }
         }
 
-        rec.t = root;
-        rec.point = ray.at(rec.t);
-        let outward_normal = (rec.point - self.center) / self.radius;
+        let t = root;
+        let point = ray.at(t);
+
+        let mut rec = HitRecord {
+            point,
+            normal: Vector3::new(0.0, 0.0, 0.0),
+            t,
+            front_face: false,
+        };
+
+        let outward_normal = (point - self.center) / self.radius;
         rec.set_face_normal(ray, outward_normal);
 
-        true
+        Some(rec)
     }
 }
