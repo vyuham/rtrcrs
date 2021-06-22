@@ -94,28 +94,21 @@ pub fn random_scene() -> HittableList {
         1000.0,
         ground_material,
     )));
-    let rand = || random_double(0.0, 1.0);
-    let rand_color = |min, max| {
-        Color::new(
-            random_double(min, max),
-            random_double(min, max),
-            random_double(min, max),
-        )
-    };
+
     for a in -11..11 {
         for b in -11..11 {
-            let center = Point3::new(a as f64 + 0.9 * rand(), 0.2, b as f64 + 0.9 * rand());
+            let center = Point3::new(a as f64 + 0.9, 0.2, b as f64 + 0.9);
             let point = center - Point3::new(4.0, 0.2, 0.0);
             if point.dot(&point).sqrt() > 0.9 {
-                match (rand() * 100.0) as u8 {
+                match ((a / b) as f64 * 100.0) as u8 {
                     0..=79 => {
-                        let albedo = rand_color(0.0, 1.0);
+                        let albedo = Color::new(0.8, 0.2, 0.3);
                         let sphere_material = Arc::new(Lambertian::new(albedo));
                         world.add(Arc::new(Sphere::new(center, 0.2, sphere_material)));
                     }
                     8..=94 => {
-                        let albedo = rand_color(0.5, 1.0);
-                        let fuzz = random_double(0.0, 0.5);
+                        let albedo = Color::new(0.5, 0.8, 0.9);
+                        let fuzz = 0.31415;
                         let sphere_material = Arc::new(Metal::new(albedo, fuzz));
                         world.add(Arc::new(Sphere::new(center, 0.2, sphere_material)));
                     }
@@ -149,4 +142,42 @@ pub fn random_scene() -> HittableList {
     )));
 
     world
+}
+
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn degrees_to_radians_test() {
+        assert_eq!(degrees_to_radians(1.0), 0.017453292519943295);
+    }
+
+    #[test]
+    fn random_double_test() {
+        let r = random_double(0.5, 0.9);
+        assert!( r >= 0.5 && r <= 0.9);
+    }
+
+    #[test]
+    fn near_zero_test() {
+        assert!(near_zero(Vec3::new(0.00000000001,0.00000000001,0.00000000001)));
+    }
+
+    #[test]
+    fn reflect_test() {
+        let n = Vec3::new(0.1,0.1,0.1);
+        assert_eq!(reflect(&n,&n), Vec3::new(0.094, 0.094, 0.094));
+    }
+
+    #[test]
+    fn refract_test() {
+        let n = Vec3::new(0.1,0.1,0.1);
+        assert_eq!(refract(&n,&n, 0.1), Vec3::new(-0.09028588550390501, -0.09028588550390501, -0.09028588550390501));
+    }
+
+    #[test]
+    fn reflectance_test() {
+        assert_eq!(reflectance(0.1, 0.1), 0.8646247933884298);
+    }
 }
