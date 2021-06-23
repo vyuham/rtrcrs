@@ -90,3 +90,45 @@ impl Material for Dielectric {
         Some((Color::new(1.0, 1.0, 1.0), Ray::new(rec.point, direction)))
     }
 }
+
+#[cfg(test)]
+mod test {
+    use super::*;
+    use crate::Vec3;
+
+    #[test]
+    fn lambertian_test() {
+        let l = Lambertian::new(Color::new(0.4, 0.5, 0.6));
+        let on = Vec3::new(1.5, 0.1, 0.9);
+        let r = Ray::new(on, on);
+        let hr = HitRecord::default();
+        let s = l.scatter(&r, &hr, &r);
+        assert!(s.is_some());
+
+        let (sc, _) = s.unwrap();
+        assert_eq!(sc, Color::new(0.4, 0.5, 0.6));
+    }
+
+    #[test]
+    fn metal_test() {
+        let m = Metal::new(Color::new(0.4, 0.5, 0.6), 0.5);
+        let on = Vec3::new(1.2, 1.0, 1.1);
+        let r = Ray::new(on, on);
+        let hr = HitRecord::default();
+        let s = m.scatter(&r, &hr, &r);
+        assert!(s.is_none());
+    }
+
+    #[test]
+    fn dielectric_test() {
+        let d = Dielectric::new(0.6);
+        let on = Vec3::new(1.5, 0.1, 0.9);
+        let r = Ray::new(on, on);
+        let hr = HitRecord::default();
+        let s = d.scatter(&r, &hr, &r);
+        assert!(s.is_some());
+
+        let (sc, _) = s.unwrap();
+        assert_eq!(sc, Color::new(1.0, 1.0, 1.0));
+    }
+}

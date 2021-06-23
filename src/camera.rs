@@ -59,7 +59,6 @@ impl Camera {
     }
 }
 
-
 #[cfg(test)]
 mod test {
     use super::*;

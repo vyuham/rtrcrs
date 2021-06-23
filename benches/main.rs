@@ -106,17 +106,19 @@ fn benchmark_single_pixel(c: &mut Criterion) {
 fn benchmark_image(c: &mut Criterion) {
     let tracer = RayTracer::default();
 
-    c.bench_function("Image", |b|b.iter(|| {
-        (0..IMAGE_HEIGHT)
-            .into_par_iter()
-            .rev()
-            .flat_map(|j| {
-                (0..IMAGE_WIDTH)
-                    .flat_map(|i| tracer.color(i, j))
-                    .collect::<Vec<u8>>()
-            })
-            .collect::<Vec<u8>>()
-    }));
+    c.bench_function("Image", |b| {
+        b.iter(|| {
+            (0..IMAGE_HEIGHT)
+                .into_par_iter()
+                .rev()
+                .flat_map(|j| {
+                    (0..IMAGE_WIDTH)
+                        .flat_map(|i| tracer.color(i, j))
+                        .collect::<Vec<u8>>()
+                })
+                .collect::<Vec<u8>>()
+        })
+    });
 }
 
 criterion_group!(benches, benchmark_single_pixel, benchmark_image);

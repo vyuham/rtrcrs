@@ -85,6 +85,7 @@ pub fn reflectance(cosine: f64, ref_idx: f64) -> f64 {
     r0 + (1.0 - r0) * (1.0 - cosine).powi(5)
 }
 
+/// Generates a random scene HittableList
 pub fn random_scene() -> HittableList {
     let mut world = HittableList::default();
 
@@ -156,24 +157,35 @@ mod test {
     #[test]
     fn random_double_test() {
         let r = random_double(0.5, 0.9);
-        assert!( r >= 0.5 && r <= 0.9);
+        assert!(r >= 0.5 && r <= 0.9);
     }
 
     #[test]
     fn near_zero_test() {
-        assert!(near_zero(Vec3::new(0.00000000001,0.00000000001,0.00000000001)));
+        assert!(near_zero(Vec3::new(
+            0.00000000001,
+            0.00000000001,
+            0.00000000001
+        )));
     }
 
     #[test]
     fn reflect_test() {
-        let n = Vec3::new(0.1,0.1,0.1);
-        assert_eq!(reflect(&n,&n), Vec3::new(0.094, 0.094, 0.094));
+        let n = Vec3::new(0.1, 0.1, 0.1);
+        assert_eq!(reflect(&n, &n), Vec3::new(0.094, 0.094, 0.094));
     }
 
     #[test]
     fn refract_test() {
-        let n = Vec3::new(0.1,0.1,0.1);
-        assert_eq!(refract(&n,&n, 0.1), Vec3::new(-0.09028588550390501, -0.09028588550390501, -0.09028588550390501));
+        let n = Vec3::new(0.1, 0.1, 0.1);
+        assert_eq!(
+            refract(&n, &n, 0.1),
+            Vec3::new(
+                -0.09028588550390501,
+                -0.09028588550390501,
+                -0.09028588550390501
+            )
+        );
     }
 
     #[test]
