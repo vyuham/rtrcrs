@@ -9,3 +9,6 @@ To preview the proper usage of the ray tracer library, use the following linux c
 ```bash
 cargo run --example example > [image_name].ppm
 ```
+## Example output
+
+![image](./image.png)
