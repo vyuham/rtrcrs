@@ -39,3 +39,19 @@ pub trait Hittable: Sync + Send {
     /// Defines the hit operation on the object with the provided Ray.
     fn hit(&self, ray: &Ray, t_min: f64, t_max: f64) -> Option<HitRecord>;
 }
+
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn set_face_normal_test() {
+        let mut hr = HitRecord::default();
+        let on = Vec3::new(1.5, 0.1, 0.9);
+        let r = Ray::new(on, on);
+        hr.set_face_normal(&r, &on);
+
+        assert_eq!(hr.front_face, false);
+        assert_eq!(hr.normal, -on);
+    }
+}

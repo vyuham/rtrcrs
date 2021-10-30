@@ -58,3 +58,19 @@ impl Camera {
         )
     }
 }
+
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn ray_test() {
+        let vec = &Vec3::new(1.0, 1.0, 1.0);
+        let cam = Camera::new(vec, vec, vec, 1.0, 1.0, 1.0, 1.0);
+        let nan_vec = Vec3::new(f64::NAN, f64::NAN, f64::NAN);
+        let expected = format!("{:?}", Ray::new(nan_vec, nan_vec));
+        let ray = format!("{:?}", cam.get_ray(1.0, 1.0));
+
+        assert_eq!(ray, expected);
+    }
+}

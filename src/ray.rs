@@ -67,6 +67,7 @@ mod tests {
         assert_eq!(ray.direction(), dir);
         assert_eq!(ray.at(3.0), origin + dir * 3.0);
     }
+
     #[test]
     fn color_test() {
         let origin = Point3::new(3.0, 2.0, 1.0);

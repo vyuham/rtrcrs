@@ -1,9 +1,11 @@
-#![feature(test)]
+// #![feature(test)]
+#[macro_use]
+extern crate criterion;
 
-extern crate test;
+use criterion::Criterion;
 
-use std::sync::Arc;
 use rayon::prelude::*;
+use std::sync::Arc;
 
 use rtrcrs::{
     camera::Camera,
@@ -20,7 +22,7 @@ use rtrcrs::{
 const ASPECT_RATIO: f64 = 16.0 / 9.0;
 const IMAGE_WIDTH: i32 = 400;
 const IMAGE_HEIGHT: i32 = (IMAGE_WIDTH as f64 / ASPECT_RATIO) as i32;
-const SAMPLES_PER_PIXEL: i32 = 100;
+const SAMPLES_PER_PIXEL: i32 = 8;
 const MAX_DEPTH: i32 = 50;
 
 struct RayTracer {
@@ -96,26 +98,28 @@ impl RayTracer {
     }
 }
 
-#[bench]
-fn benchmark_single_pixel(b: &mut test::Bencher) {
+fn benchmark_single_pixel(c: &mut Criterion) {
     let tracer = RayTracer::default();
-
-    b.iter(|| tracer.color(2, 3));
+    c.bench_function("Single pixel", |b| b.iter(|| tracer.color(2, 3)));
 }
 
-#[bench]
-fn benchmark_image(b: &mut test::Bencher) {
+fn benchmark_image(c: &mut Criterion) {
     let tracer = RayTracer::default();
 
-    b.iter(|| {
-        (0..IMAGE_HEIGHT)
-            .into_par_iter()
-            .rev()
-            .flat_map(|j| {
-                (0..IMAGE_WIDTH)
-                    .flat_map(|i| tracer.color(i, j))
-                    .collect::<Vec<u8>>()
-            })
-            .collect::<Vec<u8>>()
+    c.bench_function("Image", |b| {
+        b.iter(|| {
+            (0..IMAGE_HEIGHT)
+                .into_par_iter()
+                .rev()
+                .flat_map(|j| {
+                    (0..IMAGE_WIDTH)
+                        .flat_map(|i| tracer.color(i, j))
+                        .collect::<Vec<u8>>()
+                })
+                .collect::<Vec<u8>>()
+        })
     });
 }
+
+criterion_group!(benches, benchmark_single_pixel, benchmark_image);
+criterion_main!(benches);

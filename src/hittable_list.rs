@@ -40,3 +40,18 @@ impl Hittable for HittableList {
         hit_anything
     }
 }
+
+#[cfg(test)]
+mod test {
+    use super::*;
+    use crate::Vec3;
+
+    #[test]
+    fn hit_nothing_test() {
+        let hl = HittableList::default();
+        let v = Vec3::new(0.1, 0.1, 0.1);
+        let r = Ray::new(v, v);
+
+        assert!(hl.hit(&r, 0.1, 0.1).is_none());
+    }
+}

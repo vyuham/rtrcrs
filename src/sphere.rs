@@ -62,3 +62,19 @@ impl Hittable for Sphere {
         Some(rec)
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::material::Metal;
+
+    #[test]
+    fn sphere_test() {
+        let v = Point3::new(3.0, 2.0, 1.0);
+        let s = Sphere::new(v, 0.5, Arc::new(Metal::new(v, 0.1)));
+        let r = Ray::new(v, v);
+        let h = s.hit(&r, 0.3, 0.4);
+
+        assert!(h.is_none());
+    }
+}
